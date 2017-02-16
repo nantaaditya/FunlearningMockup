@@ -17,6 +17,8 @@
     <script src="static/plugins/fastclick/fastclick.js"></script>
     <script src="static/dist/js/app.min.js"></script>
     <script src="static/dist/js/demo.js"></script>
+    <script src="static/angular/angular.js"></script>
+    <script src="static/angular/angularApp.js"></script>
   </head>
 
   <body class="hold-transition skin-blue layout-top-nav">
@@ -30,7 +32,7 @@
           </div>
         </nav>
       </header>
-      <div class="content-wrapper">
+      <div class="content-wrapper" ng-app="angularApp">
         <div class="container">
           <section class="content">
             <div class="row">
@@ -46,36 +48,44 @@
                   </div>
                   <div class="box-body">
                     <div class="tab-content">
-                      <div id="login" class="tab-pane fade in active">
-                        <form role="form">
-                          <div class="form-group">
+                      <div id="login" class="tab-pane animated zoomIn in active">
+                        <form name="loginForm" ng-controller="loginForm" novalidate="novalidate">
+                          <div class="form-group" ng-class="{ 'has-error' : loginForm.username.$invalid && !loginForm.username.$pristine }">
                             <label class="label label-primary" for="email">Username</label>
-                            <input type="email" class="form-control" placeholder="Enter username/email" name="username">
+                            <input type="text" class="form-control" placeholder="username/email" name="username" ng-model="username" required="required">
+                            <p ng-show="loginForm.username.$invalid && !loginForm.username.$pristine" class="help-block animated shake">username required.</p>
                           </div>
-                          <div class="form-group">
+                          <div class="form-group" ng-class="{ 'has-error' : loginForm.password.$invalid && !loginForm.password.$pristine }">
                             <label class="label label-primary" for="password">Password</label>
-                            <input type="password" class="form-control" placeholder="Enter password" name="password">
+                            <input type="password" class="form-control" placeholder="password" name="password" ng-model="password" required="required">
+                            <p ng-show="loginForm.password.$invalid && !loginForm.password.$pristine" class="help-block animated shake">password required.</p>
                           </div>
                           <br/>
-                          <button type="submit" class="btn btn-flat btn-primary pull-right">Login</button>
+                          <button type="submit" class="btn btn-flat btn-primary pull-right" ng-disabled="loginForm.$invalid">Login</button>
                         </form>
                       </div>
-                      <div id="register" class="tab-pane fade">
-                        <form role="form">
-                          <div class="form-group">
+
+                      <div id="register" class="tab-pane animated zoomIn">
+                        <form name="registerForm" ng-controller="registerForm" novalidate="novalidate">
+                          <div class="form-group" ng-class="{ 'has-error' : registerForm.username.$invalid && !registerForm.username.$pristine }">
                             <label class="label label-primary" for="username">Username</label>
-                            <input type="email" class="form-control" placeholder="Enter username" name="username">
+                            <input type="text" class="form-control" placeholder="Username" name="username" ng-model="username" required="required">
+                            <p ng-show="registerForm.username.$invalid && !registerForm.username.$pristine" class="help-block animated shake">please type a username.</p>
                           </div>
-                          <div class="form-group">
+                          <div class="form-group" ng-class="{ 'has-error' : registerForm.email.$invalid && !registerForm.email.$pristine }">
                             <label class="label label-primary" for="username">Email</label>
-                            <input type="email" class="form-control" placeholder="Enter email" name="email">
+                            <input type="email" class="form-control" placeholder="Email" name="email" ng-model="email" required="required">
+                            <p ng-show="registerForm.email.$invalid && !registerForm.email.$pristine" class="help-block animated shake">please type an email.</p>
+                            <p ng-show="registerForm.email.$error.email" class="help-block animated shake">please type a valid email.</p>
                           </div>
-                          <div class="form-group">
+                          <div class="form-group" ng-class="{ 'has-error' : registerForm.password.$invalid && !registerForm.password.$pristine }">
                             <label class="label label-primary" for="password">Password</label>
-                            <input type="password" class="form-control" placeholder="Password" name="password">
+                            <input type="password" class="form-control" placeholder="Password" name="password" ng-model="password" ng-minlength="8" required="required">
+                            <p ng-show="registerForm.password.$invalid && !registerForm.password.$pristine" class="help-block animated shake">please type a password.</p>
+                            <p ng-show="registerForm.email.$error.minlength" class="help-block animated shake">password must be at least 8 character.</p>
                           </div>
                           <br/>
-                          <button type="submit" class="btn btn-flat btn-success pull-right">Register</button>
+                          <button type="submit" class="btn btn-flat btn-success pull-right" ng-disabled="registerForm.$invalid">Register</button>
                         </form>
                       </div>
                     </div>
